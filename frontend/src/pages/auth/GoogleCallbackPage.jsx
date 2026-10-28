@@ -8,7 +8,7 @@ import { SERVICE_URLS } from '../../services/apiClient';
 export default function GoogleCallbackPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUser } = useAuth();
+  const { setUser, setAuthenticatedUser } = useAuth();
   const { addToast } = useToast();
   const [error, setError] = useState(null);
 
@@ -60,6 +60,8 @@ export default function GoogleCallbackPage() {
           provider: 'Google'
         };
 
+        let backendToken = null;
+
         try {
           const authBackendUrl = SERVICE_URLS.auth;
           const syncRes = await fetch(`${authBackendUrl}/google`, {
@@ -73,6 +75,9 @@ export default function GoogleCallbackPage() {
 
           if (syncRes.ok) {
             const syncData = await syncRes.json();
+            if (syncData.token) {
+              backendToken = syncData.token;
+            }
             if (syncData.user) {
               finalUser = syncData.user;
             }
@@ -81,10 +86,15 @@ export default function GoogleCallbackPage() {
           console.warn('[Sync] MongoDB sync fallback to local storage:', syncErr.message);
         }
 
-        // Persist session
-        localStorage.setItem('resumate_auth_token', tokenToUse);
-        localStorage.setItem('resumate_user_profile', JSON.stringify(finalUser));
-        setUser(finalUser);
+        // Establish fully authenticated session in Context & LocalStorage
+        const finalToken = backendToken || tokenToUse;
+        if (typeof setAuthenticatedUser === 'function') {
+          setAuthenticatedUser(finalUser, finalToken);
+        } else {
+          localStorage.setItem('resumate_auth_token', finalToken);
+          localStorage.setItem('resumate_user_profile', JSON.stringify(finalUser));
+          setUser(finalUser);
+        }
 
         addToast({
           message: `Signed in successfully with Google! Welcome, ${finalUser.name || 'Professional'}.`,

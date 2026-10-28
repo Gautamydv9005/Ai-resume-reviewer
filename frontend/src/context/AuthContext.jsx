@@ -162,6 +162,20 @@ export function AuthProvider({ children }) {
     return await authService.resendVerification(email);
   };
 
+  const setAuthenticatedUser = (userData, token = null) => {
+    if (token) {
+      localStorage.setItem('resumate_auth_token', token);
+    }
+    if (userData) {
+      localStorage.setItem('resumate_user_profile', JSON.stringify(userData));
+      setUser(userData);
+      setIsAuthenticated(true);
+      setIsGuest(false);
+      setGuestSession(null);
+      localStorage.removeItem('resumate_guest_token');
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -178,7 +192,8 @@ export function AuthProvider({ children }) {
         logout,
         startGuestSession,
         updateGuestSession,
-        setUser
+        setUser,
+        setAuthenticatedUser
       }}
     >
       {children}
