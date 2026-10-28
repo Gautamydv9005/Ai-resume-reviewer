@@ -49,9 +49,12 @@ export default function LoginPage({ initialMode }) {
   const [resendingEmail, setResendingEmail] = useState(false);
 
   // Google OAuth Modal & Config State
+  const DEFAULT_GOOGLE_CLIENT_ID = '1006441548808-ri9ffi18bs0m11u848c2odn3ui2qs316.apps.googleusercontent.com';
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [enteredGoogleClientId, setEnteredGoogleClientId] = useState(
-    localStorage.getItem('resumate_google_client_id') || ''
+    localStorage.getItem('resumate_google_client_id') ||
+    import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+    DEFAULT_GOOGLE_CLIENT_ID
   );
 
   const from = location.state?.from?.pathname || '/dashboard';
@@ -135,6 +138,7 @@ export default function LoginPage({ initialMode }) {
   const handleGoogleSignInClick = () => {
     const configuredClientId =
       import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+      DEFAULT_GOOGLE_CLIENT_ID ||
       localStorage.getItem('resumate_google_client_id');
 
     if (configuredClientId && configuredClientId.trim().length > 5) {
