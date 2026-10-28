@@ -27,9 +27,47 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// Dynamic & Secure CORS configuration
+const allowedLocalOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174'
+];
+
+const configuredClientUrls = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map(u => u.trim().replace(/\/+$/, '')).filter(Boolean)
+  : [];
+
+const allowedOrigins = [...new Set([...allowedLocalOrigins, ...configuredClientUrls])];
+
 app.use(cors({
-  origin: (origin, callback) => callback(null, true),
-  credentials: true
+  origin: (origin, callback) => {
+    // Allow non-browser requests (Postman, curl, server-to-server, health checks)
+    if (!origin) return callback(null, true);
+
+    // If wildcard or exact match in allowed origins
+    if (configuredClientUrls.includes('*') || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Allow localhost/127.0.0.1 on any port in development
+    if (process.env.NODE_ENV !== 'production' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+      return callback(null, true);
+    }
+
+    // In production with no CLIENT_URL configured yet, permit origin with a log notice
+    if (configuredClientUrls.length === 0) {
+      return callback(null, true);
+    }
+
+    console.warn(`[CORS Blocked] Origin: ${origin}. Add this domain to CLIENT_URL in your backend environment variables.`);
+    callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-guest-token']
 }));
 
 // Cookie Parser Middleware

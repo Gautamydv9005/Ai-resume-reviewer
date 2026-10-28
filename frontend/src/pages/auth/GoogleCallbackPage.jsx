@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Sparkles, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
+import { SERVICE_URLS } from '../../services/apiClient';
 
 export default function GoogleCallbackPage() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function GoogleCallbackPage() {
         };
 
         try {
-          const authBackendUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:5000/api/auth';
+          const authBackendUrl = SERVICE_URLS.auth;
           const syncRes = await fetch(`${authBackendUrl}/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

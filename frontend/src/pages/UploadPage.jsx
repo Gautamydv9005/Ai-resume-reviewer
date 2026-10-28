@@ -190,6 +190,7 @@ export default function UploadPage() {
   // Submit Upload & Analysis
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploadStatus.isUploading) return;
     if (guestLimitReached) {
       addToast({
         message: 'Your free resume review is complete! Create an account or log in to analyze another resume.',
