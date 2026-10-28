@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Resume Reviewer — Technology Stack &amp; Presentation Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4;
+      margin: 12mm 10mm 12mm 10mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 9.5pt;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      page-break-after: always;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    /* Cover Page */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 250mm;
+      padding: 24mm 16mm 20mm 16mm;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: 12px;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      border-radius: 9999px;
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #a5b4fc;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+    }
+
+    .cover-subtitle {
+      font-size: 13.5pt;
+      color: #94a3b8;
+      font-weight: 400;
+      line-height: 1.45;
+      margin-bottom: 26px;
+      max-width: 92%;
+    }
+
+    .cover-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .cover-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 8.2pt;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin-top: auto;
+    }
+
+    .cover-meta-item h4 {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 3px;
+    }
+
+    .cover-meta-item p {
+      font-size: 9.5pt;
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    /* Headings */
+    h2.section-header {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2.section-header span.num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: #4f46e5;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 9pt;
+      font-weight: 700;
+    }
+
+    h3.sub-header {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    /* Tables */
+    table.tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px 0;
+      font-size: 8.5pt;
+    }
+
+    table.tech-table th {
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: left;
+      padding: 7px 10px;
+      font-size: 8pt;
+      letter-spacing: 0.03em;
+      border: 1px solid #0f172a;
+    }
+
+    table.tech-table td {
+      padding: 6px 10px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+      color: #1e293b;
+    }
+
+    table.tech-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .badge-primary { background: #e0e7ff; color: #3730a3; }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-amber   { background: #fef3c7; color: #92400e; }
+    .badge-violet  { background: #ede9fe; color: #5b21b6; }
+    .badge-sky     { background: #e0f2fe; color: #075985; }
+
+    /* Cards & Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      break-inside: avoid;
+    }
+
+    .card-dark {
+      background: #0f172a;
+      border-color: #1e293b;
+      color: #e2e8f0;
+    }
+
+    .card-dark h4 { color: #38bdf8; }
+    .card-dark p { color: #94a3b8; }
+
+    .card h4 {
+      font-size: 9.2pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card p {
+      font-size: 8.3pt;
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+
+    .card ul {
+      margin-left: 16px;
+      font-size: 8pt;
+      color: #475569;
+    }
+
+    .card ul li {
+      margin-bottom: 3px;
+    }
+
+    /* Callout Alert */
+    .callout {
+      border-left: 3px solid #4f46e5;
+      background: #f5f3ff;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 8px 0;
+      font-size: 8.5pt;
+    }
+
+    .callout-success {
+      border-left-color: #10b981;
+      background: #ecfdf5;
+    }
+
+    .callout-amber {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .callout strong {
+      color: #1e1b4b;
+    }
+
+    /* Architecture Diagram Box */
+    .arch-diagram {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      line-height: 1.35;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+
+    /* Slide Box */
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-top: 3px solid #2563eb;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      break-inside: avoid;
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .slide-title {
+      font-size: 9.3pt;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .slide-num {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .slide-body {
+      font-size: 8.2pt;
+      color: #334155;
+    }
+
+    .slide-body strong {
+      color: #0f172a;
+    }
+
+    .slide-points {
+      margin-left: 16px;
+      margin-top: 4px;
+    }
+
+    .slide-points li {
+      margin-bottom: 3px;
+    }
+
+    .slide-script {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin-top: 6px;
+      font-style: italic;
+      color: #475569;
+      font-size: 7.8pt;
+    }
+
+    /* Q&A Item */
+    .qa-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: #ffffff;
+      break-inside: avoid;
+    }
+
+    .qa-q {
+      background: #f1f5f9;
+      padding: 6px 10px;
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 8.5pt;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .qa-q-badge {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 7pt;
+    }
+
+    .qa-a {
+      padding: 8px 10px;
+      font-size: 8.2pt;
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .code-snippet {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: COVER PAGE ==================== -->
+  <div class="page">
+    <div class="cover">
+      <div>
+        <div class="cover-badge">Full-Stack AI Software Engineering Project</div>
+        <h1 class="cover-title">AI RESUME REVIEWER<br>&amp; ATS INTELLIGENCE</h1>
+        <p class="cover-subtitle">
+          Comprehensive Technology Stack Inventory, Architectural Blueprint, 
+          Scoring Algorithms, and Slide-by-Slide Presentation Defense Manual.
+        </p>
+
+        <div class="cover-pills">
+          <span class="cover-pill">⚛️ React 19 (Vite 6)</span>
+          <span class="cover-pill">🟢 Node.js &amp; Express</span>
+          <span class="cover-pill">🍃 MongoDB &amp; Mongoose</span>
+          <span class="cover-pill">✨ Google Gemini 2.0 Flash</span>
+          <span class="cover-pill">📊 ATS Heuristic Engine</span>
+          <span class="cover-pill">🎯 Job Match Scorer</span>
+          <span class="cover-pill">🔐 JWT &amp; Google OAuth 2.0</span>
+          <span class="cover-pill">🎭 Playwright Browser E2E</span>
+        </div>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <h4>Project Architecture</h4>
+          <p>Decoupled Client-Server REST Microservices</p>
+        </div>
+        <div class="cover-meta-item">
+          <h4>AI Model Integration</h4>
+          <p>Google GenAI SDK (Gemini 2.0 / 1.5 Flash)</p>
+        </div>
+        <div class="cover-meta-item">
+          <h4>Database Architecture</h4>
+          <p>MongoDB Atlas / Mongoose + In-Memory Fallback</p>
+        </div>
+        <div class="cover-meta-item">
+          <h4>Document Parsers</h4>
+          <p>PDF (pdf-parse) &amp; Word DOCX (Mammoth)</p>
+        </div>
+        <div class="cover-meta-item">
+          <h4>Presentation Focus</h4>
+          <p>Viva Defense, Architecture Review, Tech Stack</p>
+        </div>
+        <div class="cover-meta-item">
+          <h4>Security Suite</h4>
+          <p>Bcrypt.js, JWT, Sanitization &amp; Guest Isolation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: EXECUTIVE SUMMARY & ARCHITECTURE ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">1</span> Executive Summary &amp; System Overview</h2>
+    
+    <p>
+      The <strong>AI Resume Reviewer</strong> is an enterprise-grade full-stack platform engineered to solve the "black box" problem of modern recruitment. Over <strong>75% of resumes</strong> submitted online are filtered out before reaching a human recruiter due to automated <em>Applicant Tracking Systems (ATS)</em> parsing errors, missing technical keywords, poor typographic flow, and unquantified job bullets.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h4>📄 Ingestion Engine</h4>
+        <p>Supports multi-format binary uploads (.PDF and .DOCX) with automated buffer parsing, optical layer scanning, and structured section extraction.</p>
+      </div>
+      <div class="card">
+        <h4>🎯 Heuristic &amp; AI Audit</h4>
+        <p>Dual-layer scoring: deterministic keyword boundary matching + Google Gemini 2.0 Flash for semantic feedback and bullet rewriting.</p>
+      </div>
+      <div class="card">
+        <h4>⚡ Zero-Friction UX</h4>
+        <p>Immediate guest session mode, side-by-side resume version diffing, interactive score badges, and offline fallback resilience.</p>
+      </div>
+    </div>
+
+    <h2 class="section-header"><span class="num">2</span> High-Level Architecture &amp; Data Flow</h2>
+    
+    <div class="arch-diagram">
++--------------------------------------------------------------------------------------------------+
+|                                    REACT 19 FRONTEND CLIENT (VITE 6)                             |
+|  [Pages: Dashboard, Upload, ATS Analysis, Job Match, Comparison, Profile, Auth (OAuth/Email)]     |
+|  [State: AuthContext | ResumeContext | ThemeContext | ToastContext]  [Tokens: CSS3 Glassmorphism] |
++-------------------------------------------------+------------------------------------------------+
+                                                  | HTTP / JSON REST APIs (Axios / Fetch)
+                                                  v
++-------------------------------------------------+------------------------------------------------+
+|                                    EXPRESS.JS REST API SERVER (PORT 5000)                        |
+|  - Middleware: CORS, Sanitizer (XSS/NoSQL Injection), Cookie Parser, Multer Ingestion, Auth (JWT) |
+|  - Routers: /api/auth | /api/resumes | /api/analysis | /api/ats | /api/job-match | /api/users     |
++-------------------+-----------------------------+------------------------------+-----------------+
+                    |                             |                              |
+                    v                             v                              v
+   +-------------------------------+ +----------------------------+ +------------------------------+
+   |   DOCUMENT PARSING ENGINES    | |   SCORING &amp; AUDIT ENGINES  | |      DATA PERSISTENCE        |
+   | - PDF: pdf-parse (text stream)| | - atsEngine (50+ Keywords) | | - MongoDB (Atlas / Local)    |
+   | - DOCX: Mammoth (XML text)    | | - jobMatchEngine (Fit %)   | | - Mongoose ODM Models        |
+   | - resumeParser (Section regex)| | - aiAnalysisEngine:        | | - Resilient In-Memory        |
+   |                               | |    * Google Gemini 2.0 LLM | |   Fallback (dataStore.js)    |
+   |                               | |    * Google X-Y-Z Formula  | | - Disk Storage (/uploads)    |
+   +-------------------------------+ +----------------------------+ +------------------------------+
+    </div>
+
+    <div class="callout">
+      <strong>Core Architectural Strength:</strong> The system is designed with <em>fail-safe autonomy</em>. If MongoDB is offline, an in-memory replica activates seamlessly. If the Google Gemini API key is absent or exhausted, deterministic heuristics calculate scores without disruption.
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3: COMPLETE TECHNOLOGY INVENTORY ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">3</span> Complete Technology Stack Inventory</h2>
+
+    <p>Every tool, library, framework, and language chosen for this project serves a precise engineering rationale:</p>
+
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Layer / Domain</th>
+          <th style="width: 25%;">Technology &amp; Version</th>
+          <th style="width: 53%;">Engineering Rationale &amp; Practical Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Frontend Core</strong></td>
+          <td><span class="badge badge-primary">React 19.0.0</span></td>
+          <td>Latest stable React release utilizing concurrent rendering, modern hooks, fine-grained virtual DOM reconciliation, and fluid state updates.</td>
+        </tr>
+        <tr>
+          <td><strong>Build Tool &amp; Bundler</strong></td>
+          <td><span class="badge badge-sky">Vite 6.2.0</span></td>
+          <td>Next-gen build tool replacing Webpack. Native ES-modules provide sub-second hot module replacement (HMR) and optimized Rollup production bundles.</td>
+        </tr>
+        <tr>
+          <td><strong>Client Routing</strong></td>
+          <td><span class="badge badge-primary">React Router v7.2.0</span></td>
+          <td>Declarative SPA client routing with protected routes, parameter extraction (:resumeId), lazy view transitions, and browser history synchronization.</td>
+        </tr>
+        <tr>
+          <td><strong>Iconography</strong></td>
+          <td><span class="badge badge-violet">Lucide React 0.475.0</span></td>
+          <td>Tree-shakeable, lightweight SVG icon package ensuring clean, modern UI visual cues with zero runtime bloat.</td>
+        </tr>
+        <tr>
+          <td><strong>Gamification &amp; Effects</strong></td>
+          <td><span class="badge badge-amber">Canvas Confetti 1.9.4</span></td>
+          <td>HTML5 canvas particle physics generator triggering celebratory rewards when candidate achieves exceptional ATS or job match scores.</td>
+        </tr>
+        <tr>
+          <td><strong>Design &amp; Styling</strong></td>
+          <td><span class="badge badge-primary">Pure Vanilla CSS3</span></td>
+          <td>Tailored design system with CSS custom properties (tokens.css), glassmorphic translucent layers, flexbox, CSS grid, and dark/light mode themes.</td>
+        </tr>
+        <tr>
+          <td><strong>Backend Runtime</strong></td>
+          <td><span class="badge badge-success">Node.js (v18+ / v24)</span></td>
+          <td>High-throughput, non-blocking asynchronous event loop with native ECMAScript Modules ("type": "module").</td>
+        </tr>
+        <tr>
+          <td><strong>Web Framework</strong></td>
+          <td><span class="badge badge-success">Express.js 4.21.2</span></td>
+          <td>Minimalist, robust HTTP server framework for modular API routing, middleware chaining, and unified JSON error handling.</td>
+        </tr>
+        <tr>
+          <td><strong>Database Engine</strong></td>
+          <td><span class="badge badge-success">MongoDB</span></td>
+          <td>NoSQL document database ideal for unstructured resume JSON schemas, flexible scoring models, and dynamic keyword audits.</td>
+        </tr>
+        <tr>
+          <td><strong>Object Data Modeling</strong></td>
+          <td><span class="badge badge-success">Mongoose 8.9.5</span></td>
+          <td>Provides strict schema typing, pre/post middleware hooks, relational document population, and validation constraints.</td>
+        </tr>
+        <tr>
+          <td><strong>PDF Parsing Engine</strong></td>
+          <td><span class="badge badge-amber">pdf-parse 1.1.1</span></td>
+          <td>Direct memory buffer extraction of text streams from uploaded PDF resumes without external binary dependencies.</td>
+        </tr>
+        <tr>
+          <td><strong>DOCX Parsing Engine</strong></td>
+          <td><span class="badge badge-amber">Mammoth 1.9.0</span></td>
+          <td>Extracts clean, semantic text and paragraph headings from Microsoft Word .docx documents by parsing underlying OpenXML.</td>
+        </tr>
+        <tr>
+          <td><strong>Generative AI Model</strong></td>
+          <td><span class="badge badge-violet">@google/genai 2.28.0</span></td>
+          <td>Google Gemini 2.0 Flash SDK performing semantic evaluation, personalized candidate advice, and Google X-Y-Z bullet rewrites.</td>
+        </tr>
+        <tr>
+          <td><strong>Authentication Security</strong></td>
+          <td><span class="badge badge-primary">JWT &amp; Bcrypt.js</span></td>
+          <td>Stateless JSON Web Tokens with 7-day expiration combined with 10-round salted one-way bcrypt password hashing.</td>
+        </tr>
+        <tr>
+          <td><strong>Single Sign-On (SSO)</strong></td>
+          <td><span class="badge badge-primary">google-auth-library</span></td>
+          <td>Validates Google OAuth 2.0 cryptographic ID tokens, facilitating seamless 1-click Google authentication.</td>
+        </tr>
+        <tr>
+          <td><strong>Email Service</strong></td>
+          <td><span class="badge badge-sky">Nodemailer 10.1.7</span></td>
+          <td>SMTP transactional mailer for sending 6-digit email verification codes, welcome emails, and secure password reset tokens.</td>
+        </tr>
+        <tr>
+          <td><strong>File Upload Middleware</strong></td>
+          <td><span class="badge badge-amber">Multer 1.4.5</span></td>
+          <td>Streaming multipart/form-data upload pipeline enforcing 10MB size limits and PDF/DOCX MIME type validation.</td>
+        </tr>
+        <tr>
+          <td><strong>Security Sanitization</strong></td>
+          <td><span class="badge badge-success">Custom Sanitize MW</span></td>
+          <td>Custom recursive sanitizer stripping dangerous Mongo query keys ($gt, $where) and XSS tags before hitting controllers.</td>
+        </tr>
+        <tr>
+          <td><strong>E2E Browser Testing</strong></td>
+          <td><span class="badge badge-violet">Playwright Core 1.64.1</span></td>
+          <td>Automated Chromium/Edge browser testing orchestrating realistic user journeys: upload, audit, comparison, and authentication.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== PAGE 4: ALGORITHMIC & AI ARCHITECTURE ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">4</span> Algorithmic Engines &amp; AI Architecture</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>1. ATS Compatibility &amp; Keyword Engine</h4>
+        <p><strong>Mechanism:</strong> Scans resume text against a proprietary technical dictionary containing 50+ keywords across 6 categories (Languages, Frontend, Backend, Databases, Cloud/DevOps, QA/Agile).</p>
+        <ul>
+          <li><strong>Regex Word Boundaries:</strong> Employs <code>\b{keyword}\b</code> regex matching to eliminate false positives (e.g., "Go" vs "Good").</li>
+          <li><strong>Classification:</strong> Segregates matched skills from missing critical requirements with priority tiers (Critical, High, Medium).</li>
+          <li><strong>Layout Compliance:</strong> Checks single-column linearity, optical extractability, and standard section title naming conventions.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>2. Job Description Match Engine</h4>
+        <p><strong>Mechanism:</strong> Evaluates role fitness against user-entered job specs or dynamically pasted job descriptions.</p>
+        <ul>
+          <li><strong>Role Fit Matrix:</strong> Multi-dimensional scoring across Frontend, Backend, Cloud Infrastructure, Scalability, and Leadership.</li>
+          <li><strong>Seniority Audit:</strong> Cross-references candidate years of experience and title progression against job requirements.</li>
+          <li><strong>Missing Skills Roadmap:</strong> Highlights specific gaps with actionable recommendations for candidate upskilling.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>3. Google Gemini 2.0 Flash Integration</h4>
+        <p><strong>Mechanism:</strong> Uses Google's next-generation LLM via the official <code>@google/genai</code> SDK for deep semantic critique.</p>
+        <ul>
+          <li><strong>Strict Schema Enforcement:</strong> System prompts mandate pure JSON conforming to an explicit response structure.</li>
+          <li><strong>Structured Verdicts:</strong> Generates executive headlines, targeted strengths, and high-impact weaknesses.</li>
+          <li><strong>Automatic Fallback:</strong> If Gemini 2.0 Flash is busy, it auto-retries on Gemini 1.5 Flash before invoking deterministic heuristics.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>4. Google X-Y-Z Bullet Optimizer</h4>
+        <p><strong>Formula:</strong> <em>"Accomplished [X] as measured by [Y], by doing [Z]"</em></p>
+        <ul>
+          <li><strong>Weak Bullet Point:</strong> "Handled backend APIs for the payment team."</li>
+          <li><strong>Engine Optimized Bullet:</strong> "Architected resilient payment microservices, reducing API checkout latency by 34% through Redis caching and PostgreSQL query optimization."</li>
+          <li><strong>Rationale:</strong> Embeds measurable KPIs, active verbs, and technical stack ownership into every bullet.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="section-header"><span class="num">5</span> Composite Scoring Mathematical Formula</h2>
+    
+    <div class="card card-dark">
+      <h4>Overall Evaluation Score Formula</h4>
+      <p>When evaluated against a target Job Description:</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; color: #38bdf8;">
+        Overall Score = (ATS_Score × 0.35) + (JobMatch_Score × 0.35) + (Readability × 0.15) + (Impact_Score × 0.15)
+      </p>
+      <p style="margin-top: 6px;">When evaluated in "Resume Only" standalone mode (no target job specified):</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; color: #38bdf8;">
+        Overall Score = (ATS_Score × 0.70) + (Readability × 0.15) + (Impact_Score × 0.15)
+      </p>
+      <p style="font-size: 8pt; color: #94a3b8; margin-top: 4px;">
+        * Readability assesses word count density (optimal: 300–800 words). Impact score rewards quantified percentage/dollar metrics (numbers with % or $).
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 5: PRESENTATION SLIDE-BY-SLIDE GUIDE ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">6</span> Slide-by-Slide Presentation Guide (10-Slide Deck)</h2>
+    <p>Use this structured outline to build your presentation slides and deliver an authoritative talk:</p>
+
+    <!-- Slide 1 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 1: Project Title &amp; Mission Overview</span>
+        <span class="slide-num">SLIDE 1</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Project logo, platform screenshot showing the dashboard, presenter details.
+        <ul class="slide-points">
+          <li><strong>Project Name:</strong> AI Resume Reviewer &amp; ATS Intelligence Platform.</li>
+          <li><strong>Objective:</strong> Bridge the communication gap between candidates and modern automated ATS screening software.</li>
+          <li><strong>Core Capability:</strong> Instant multi-page resume parsing, ATS heuristic audits, and AI-powered bullet optimization.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "Respected panel, today I am presenting the AI Resume Reviewer. While thousands of candidates apply for jobs daily, over 75% are eliminated by automated filters. Our platform acts as a candidate's personal AI recruiter, highlighting exact flaws before they press submit."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 2: The Problem — The ATS Black Box</span>
+        <span class="slide-num">SLIDE 2</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Infographic showing 100 resumes filtering down to 5 due to formatting and keyword drops.
+        <ul class="slide-points">
+          <li><strong>Parsing Failures:</strong> Complex multi-column tables and non-standard fonts scramble text in legacy ATS software.</li>
+          <li><strong>Missing Keyword Density:</strong> Candidates fail to match the precise vocabulary required by hiring managers.</li>
+          <li><strong>Unquantified Accomplishments:</strong> Passive responsibility lists fail to stand out during human 6-second recruiter scans.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "The primary challenge candidates face isn't lack of skill—it is lack of visibility. Resumes fail simple optical parsing checks or lack quantified achievements."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 3: System Architecture &amp; Technology Stack</span>
+        <span class="slide-num">SLIDE 3</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> 3-tier architectural diagram (React 19 Frontend -> Express REST API -> MongoDB &amp; Google Gemini AI).
+        <ul class="slide-points">
+          <li><strong>Frontend:</strong> React 19 + Vite 6 + Context API + Custom Glassmorphism CSS Design Tokens.</li>
+          <li><strong>Backend:</strong> Node.js + Express.js modular microservice routers + Multer file streaming.</li>
+          <li><strong>Data &amp; AI:</strong> MongoDB/Mongoose + Google GenAI SDK (Gemini 2.0 Flash) + In-Memory Fallback.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "We built our application on modern React 19 with Vite for ultra-fast performance, backed by a Node.js REST server and Google's latest Gemini 2.0 Flash model."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 4: Document Ingestion &amp; Parsing Pipeline</span>
+        <span class="slide-num">SLIDE 4</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Flow diagram showing file upload (.pdf / .docx) converted into structured JSON sections.
+        <ul class="slide-points">
+          <li><strong>Binary Extraction:</strong> pdf-parse extracts clean text streams; mammoth converts Word XML blocks.</li>
+          <li><strong>Regex Segmentation:</strong> Intelligent boundary scanning categorizes Summary, Experience, Education, Skills, and Projects.</li>
+          <li><strong>Contact Scraper:</strong> Validates email, telephone, LinkedIn, and GitHub links via whole-pattern regular expressions.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "When a user uploads a document, our backend parses raw buffers into normalized JSON segments without relying on heavy external software."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 6: SLIDE GUIDE (CONTINUED) ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">6</span> Slide-by-Slide Presentation Guide (Slides 5–10)</h2>
+
+    <!-- Slide 5 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 5: ATS Compatibility &amp; Keyword Density Engine</span>
+        <span class="slide-num">SLIDE 5</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Screenshot of ATS Analysis page with green "Matched" and orange "Missing" keyword chips.
+        <ul class="slide-points">
+          <li><strong>Curated Dictionary:</strong> Indices 50+ mission-critical technologies across 6 technological domains.</li>
+          <li><strong>Boundary Matching:</strong> Uses whole-word regex to avoid inaccurate substring matches.</li>
+          <li><strong>Format Compliance Checks:</strong> Audits single-column flow, optical text layer clarity, and standard heading labels.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "Our ATS engine gives job seekers an unfair advantage by auditing formatting compliance and identifying high-priority missing keywords."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 6: Google Gemini AI &amp; Bullet Point Rewriting</span>
+        <span class="slide-num">SLIDE 6</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Before &amp; After comparison card showing an unoptimized bullet converted via the Google X-Y-Z formula.
+        <ul class="slide-points">
+          <li><strong>Google GenAI SDK:</strong> Connected to Gemini 2.0 Flash using strict JSON schema constraints.</li>
+          <li><strong>The X-Y-Z Formula:</strong> Transforms passive duty lists into measurable, business-oriented engineering wins.</li>
+          <li><strong>Resilient Fallback:</strong> If API limits are reached, the system executes built-in heuristic logic seamlessly.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "Recruiters love Google's X-Y-Z formula: Accomplished X, as measured by Y, by doing Z. Our platform automatically rewrites weak bullet points using Gemini 2.0."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 7: Dynamic Job Description Matcher</span>
+        <span class="slide-num">SLIDE 7</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Side-by-side view of candidate skills vs. target job criteria with role fit radar/progress bars.
+        <ul class="slide-points">
+          <li><strong>Role Fit Breakdown:</strong> Independent scores for Frontend, Backend, Cloud &amp; DevOps, Scalability, and Leadership.</li>
+          <li><strong>On-the-Fly Matching:</strong> Users can paste custom job descriptions for instant role-specific fitness scores.</li>
+          <li><strong>Upskilling Suggestions:</strong> Recommends top 3 technologies to learn for the targeted job.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "Users can benchmark their resume against any specific job post to see their precise fit score before sending an application."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 8: Authentication, Security &amp; Guest Access</span>
+        <span class="slide-num">SLIDE 8</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Security architecture diagram showing JWT, Bcrypt, Google OAuth, and input sanitization.
+        <ul class="slide-points">
+          <li><strong>Multi-Auth:</strong> Email/Password with bcrypt salt hashing + 1-click Google OAuth 2.0 SSO.</li>
+          <li><strong>Guest Access:</strong> Atomic session generation with concurrency bounds for immediate, barrier-free evaluation.</li>
+          <li><strong>Sanitization Layer:</strong> Custom middleware protects against NoSQL query injections and Cross-Site Scripting (XSS).</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "Security is built-in: passwords hashed with bcrypt, stateless JWT tokens, and an isolated guest mode that guarantees zero database bloat."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 9: Quality Assurance &amp; Automated Testing</span>
+        <span class="slide-num">SLIDE 9</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Terminal output showing unit test suite and Playwright browser test pass rate.
+        <ul class="slide-points">
+          <li><strong>Node.js Native Test Runner:</strong> Executes unit tests and integration tests without bulky third-party runners.</li>
+          <li><strong>Playwright Core E2E:</strong> End-to-end browser automation validating navigation, upload, and score calculations.</li>
+          <li><strong>Concurrency Testing:</strong> Validates atomic guest locks and stress-tests API throughput.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "We verified platform stability using automated Playwright browser tests and Node native unit tests."
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide-card">
+      <div class="slide-header">
+        <span class="slide-title">Slide 10: Future Enhancements &amp; Conclusion</span>
+        <span class="slide-num">SLIDE 10</span>
+      </div>
+      <div class="slide-body">
+        <strong>Visual:</strong> Roadmap showing LinkedIn auto-sync, 1-click tailored resume export, and real-time interview prep bot.
+        <ul class="slide-points">
+          <li><strong>Roadmap:</strong> 1-Click PDF export with pre-optimized layouts; multi-lingual resume parsing; mock interview AI prep.</li>
+          <li><strong>Summary:</strong> Complete, production-grade full stack system combining deterministic heuristics with generative AI.</li>
+        </ul>
+        <div class="slide-script">
+          <strong>Speaker Notes:</strong> "In conclusion, our platform empowers applicants to beat the ATS and get hired. Thank you, and I now welcome your questions."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 7: VIVA & PRESENTATION DEFENSE Q&A ==================== -->
+  <div class="page">
+    <h2 class="section-header"><span class="num">7</span> Technical Viva &amp; Presentation Defense Guide</h2>
+    <p>Prepare for evaluators' toughest technical questions with these verified, authoritative answers:</p>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q1</span>
+        <span>Why did you choose React 19 and Vite rather than Next.js or traditional CRA?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "We selected <strong>React 19 with Vite 6</strong> because our application is a dynamic, authenticated Single Page Application (SPA) dashboard rather than an SEO-reliant e-commerce site. Vite leverages native ES Modules during development, providing instant Hot Module Replacement (HMR) and optimized Rollup bundling that builds in seconds. React 19 provides modern concurrent rendering and refined state synchronization without the deployment overhead of a full Next.js Node server."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q2</span>
+        <span>How does the backend parse binary PDF and DOCX files without corrupting characters?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "We handle file ingestion using <strong>Multer</strong>, which streams files into memory buffers. For PDFs, we utilize <strong>pdf-parse</strong> to decode low-level PDF page streams into UTF-8 text while preserving linebreaks. For Word documents (.docx), we utilize <strong>Mammoth</strong>, which parses the underlying OpenXML format, extracting text and structural headings while stripping complex styling that often confuses ATS parsers."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q3</span>
+        <span>Is the ATS score generated purely by AI, or is it algorithmic? Why?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "The ATS score is calculated using a <strong>hybrid architecture</strong>. Relying solely on LLMs for numerical scores leads to hallucination and non-deterministic variability. Therefore, our ATS scoring uses a <strong>deterministic heuristic engine</strong> with exact regex boundary scans (<code>\b{keyword}\b</code>) over 50+ categorized technical terms, single-column linearity checks, and word-density algorithms. Google Gemini AI is then leveraged for what LLMs do best: qualitative semantic critique and creative bullet point rewriting."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q4</span>
+        <span>What happens if the Google Gemini API key expires or the user has no internet connection?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "The architecture incorporates <strong>Graceful Degradation</strong>. In <code>aiAnalysisEngine.js</code>, the Gemini call is wrapped in a 15-second timeout with error interception. If the API key is absent or fails, the platform automatically switches to a high-fidelity local heuristic engine that generates comprehensive strengths, weaknesses, and improvement recommendations without throwing errors or breaking the UI."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q5</span>
+        <span>How does your backend prevent NoSQL Injection and Cross-Site Scripting (XSS)?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "We implemented a custom recursive sanitizer middleware (<code>sanitize.js</code>) that intercepts every request body, query parameter, and URL parameter. It strips MongoDB operator injection keys starting with <code>$</code> or containing <code>.</code> (preventing queries like <code>{ $gt: '' }</code>) and escapes HTML special entities to neutralize XSS payload injections."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q6</span>
+        <span>How does the 'Guest Access' feature work without polluting your MongoDB database?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "Guest mode creates an atomic session record with a unique guest ID and timestamp in <code>GuestSession.js</code>. Guest resumes and analyses are tagged with this ID and subjected to strict server-side concurrency limits. In production, guest sessions are configured with TTL (Time-To-Live) expiration indexes, allowing automatic background cleanup by MongoDB."
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">
+        <span class="qa-q-badge">Q7</span>
+        <span>What is Google's X-Y-Z formula, and how does your engine apply it?</span>
+      </div>
+      <div class="qa-a">
+        <strong>Answer:</strong> "Google's X-Y-Z formula is: <em>'Accomplished [X] as measured by [Y], by doing [Z]'</em>. Our engine inspects candidate bullet points for missing metrics. If a bullet merely lists an action without a measurable outcome, our engine restructures it to incorporate an action verb, a quantified impact percentage or latency metric, and the specific technical stack utilized."
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

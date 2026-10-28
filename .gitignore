@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment Variables
+.env
+.env*.local
+frontend/.env
+backend/.env
+!frontend/.env.example
+!backend/.env.example
+
+# Build Outputs
+dist/
+frontend/dist/
+build/
+
+# Uploads & Temporary files
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
