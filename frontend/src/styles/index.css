@@ -50,14 +50,22 @@ body {
 
 /* Typography Helpers */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
+  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.25;
   color: var(--text-primary);
+  letter-spacing: -0.015em;
 }
 
 .text-gradient {
   background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-accent-gradient {
+  background: var(--brand-accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;

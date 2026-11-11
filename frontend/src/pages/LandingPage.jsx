@@ -578,7 +578,7 @@ export default function LandingPage() {
           <p style={{ color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto 2rem auto', fontSize: '1.05rem' }}>
             Upload your resume now and get your comprehensive ATS and job match report in seconds.
           </p>
-          <Link to="/upload" className="btn btn-primary btn-lg">
+          <Link to="/upload" className="btn btn-accent btn-lg" style={{ boxShadow: 'var(--shadow-md)' }}>
             <Sparkles size={18} />
             Review My Resume Now
             <ArrowRight size={18} />

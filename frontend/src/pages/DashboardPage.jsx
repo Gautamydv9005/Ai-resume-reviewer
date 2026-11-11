@@ -45,20 +45,20 @@ export default function DashboardPage() {
           {/* Welcome Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
                 <span className="badge badge-brand">Candidate Dashboard</span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{user?.plan || 'Pro Account'}</span>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>{user?.plan || 'Pro Account'}</span>
               </div>
-              <h1 style={{ fontSize: '1.95rem', fontWeight: 800 }}>
+              <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>
                 Welcome back, {user?.name ? user.name.split(' ')[0] : 'Engineer'}!
               </h1>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem' }}>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
                 Here is a summary of your resume ATS performance and career matching metrics.
               </p>
             </div>
 
-            <Link to="/upload" className="btn btn-primary">
-              <UploadCloud size={16} /> Upload New Resume
+            <Link to="/upload" className="btn btn-accent btn-lg" style={{ boxShadow: 'var(--shadow-md)' }}>
+              <UploadCloud size={18} /> Upload New Resume
             </Link>
           </div>
 
@@ -66,19 +66,32 @@ export default function DashboardPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
               gap: '1.25rem'
             }}
           >
             {/* KPI 1: Resumes Analyzed */}
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.06em' }}>
                   Resumes Analyzed
                 </span>
-                <FileCheck2 size={18} color="var(--brand-primary)" />
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '10px',
+                    background: 'var(--brand-primary-light)',
+                    color: 'var(--brand-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <FileCheck2 size={18} />
+                </div>
               </div>
-              <div style={{ fontSize: '2.1rem', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
+              <div style={{ fontSize: '2.25rem', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
                 {totalAnalyzed}
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
@@ -87,30 +100,56 @@ export default function DashboardPage() {
             </div>
 
             {/* KPI 2: Average Overall Score */}
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.06em' }}>
                   Average Overall Score
                 </span>
-                <Award size={18} color="#6366f1" />
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '10px',
+                    background: 'rgba(37, 99, 235, 0.12)',
+                    color: 'var(--brand-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Award size={18} />
+                </div>
               </div>
-              <div style={{ fontSize: '2.1rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--brand-primary)' }}>
+              <div style={{ fontSize: '2.25rem', fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--brand-primary)' }}>
                 88%
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '0.35rem', fontWeight: 600 }}>
                 <TrendingUp size={14} /> +12% since first upload
               </div>
             </div>
 
             {/* KPI 3: Average ATS Score */}
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.06em' }}>
                   Average ATS Score
                 </span>
-                <ShieldCheck size={18} color="var(--success)" />
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '10px',
+                    background: 'var(--success-light)',
+                    color: 'var(--success)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <ShieldCheck size={18} />
+                </div>
               </div>
-              <div style={{ fontSize: '2.1rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--success)' }}>
+              <div style={{ fontSize: '2.25rem', fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--success)' }}>
                 {avgAts}%
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
@@ -119,14 +158,27 @@ export default function DashboardPage() {
             </div>
 
             {/* KPI 4: Job Match Average */}
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.06em' }}>
                   Average Job Match
                 </span>
-                <Sparkles size={18} color="var(--brand-cyan)" />
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '10px',
+                    background: 'var(--brand-cyan-light)',
+                    color: 'var(--brand-cyan)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Sparkles size={18} />
+                </div>
               </div>
-              <div style={{ fontSize: '2.1rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--brand-cyan)' }}>
+              <div style={{ fontSize: '2.25rem', fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--brand-cyan)' }}>
                 {avgJobMatch}%
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
@@ -181,7 +233,7 @@ export default function DashboardPage() {
                   max={100}
                   size={120}
                   label="Overall"
-                  color="#6366f1"
+                  color="#2563eb"
                 />
                 <CircularProgress
                   score={latestResume.atsScore || 89}

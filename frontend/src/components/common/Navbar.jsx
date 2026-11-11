@@ -94,18 +94,18 @@ export default function Navbar() {
               alignItems: 'center',
               justifyContent: 'center',
               color: '#ffffff',
-              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)'
+              boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)'
             }}
           >
             <Sparkles size={20} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
+              <span style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>
                 ResuMate<span className="text-gradient">.AI</span>
               </span>
             </div>
-            <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.06em' }}>
               AI RESUME PLATFORM
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function Navbar() {
             }}
             aria-label="Toggle theme mode"
           >
-            {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="#6366f1" />}
+            {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="var(--brand-primary)" />}
           </button>
 
           {/* User Auth or Sign In */}
@@ -273,9 +273,6 @@ export default function Navbar() {
                   style={{
                     fontSize: '0.74rem',
                     padding: '0.2rem 0.55rem',
-                    background: 'rgba(99, 102, 241, 0.15)',
-                    border: '1px solid rgba(99, 102, 241, 0.35)',
-                    color: 'var(--brand-primary)',
                     fontWeight: 600
                   }}
                 >

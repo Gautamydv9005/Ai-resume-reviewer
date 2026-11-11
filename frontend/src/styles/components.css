@@ -2,19 +2,34 @@
    Reusable UI Components Styling
    ========================================================================== */
 
-/* Glass Cards & Containers */
+/* Glass Cards & Containers (Design System Master: Glassmorphism + SaaS Cards) */
+.card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
 .glass-panel {
   background: var(--bg-glass-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
 }
 
 .glass-panel:hover {
   border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
 }
 
 .glass-panel-interactive {
@@ -23,7 +38,7 @@
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
   cursor: pointer;
 }
@@ -41,6 +56,13 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-default);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.gradient-border-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
 }
 
 .gradient-border-card::before {
@@ -53,7 +75,7 @@
   background: var(--brand-gradient);
 }
 
-/* Buttons */
+/* Buttons (Design System Master) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -63,13 +85,13 @@
   font-size: 0.925rem;
   font-weight: 600;
   padding: 0.65rem 1.25rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-normal);
   text-decoration: none;
   white-space: nowrap;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .btn:disabled {
@@ -81,37 +103,53 @@
 .btn-primary {
   background: var(--brand-gradient);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--brand-gradient-hover);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+
+/* Warm Orange CTA Button (Design System Master: #EA580C) */
+.btn-accent,
+.btn-cta {
+  background: var(--brand-accent-gradient);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);
+}
+
+.btn-accent:hover,
+.btn-cta:hover {
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background: var(--bg-elevated);
+  background: var(--bg-tertiary);
   color: var(--text-primary);
-  border-color: var(--border-default);
+  border: 1px solid var(--border-default);
 }
 
 .btn-secondary:hover {
-  background: var(--bg-tertiary);
+  background: var(--bg-elevated);
   border-color: var(--border-strong);
-  color: #ffffff;
+  color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-strong);
+  color: var(--brand-primary);
+  border: 1.5px solid var(--brand-primary);
 }
 
 .btn-outline:hover {
   background: var(--brand-primary-light);
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
+  color: var(--brand-primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -358,7 +396,87 @@
 .tab-btn.active {
   color: #ffffff;
   background: var(--brand-primary);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* ==========================================================================
+   Sidebar Navigation Component (SaaS Dashboard)
+   ========================================================================== */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.sidebar-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-hover);
+  transform: translateX(2px);
+}
+
+.sidebar-link.active {
+  color: var(--brand-primary);
+  background: var(--brand-primary-light);
+  border-left-color: var(--brand-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08);
+}
+
+.sidebar-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-link.active .sidebar-icon-wrap {
+  color: var(--brand-primary);
+}
+
+.sidebar-widget {
+  padding: 0.95rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.sidebar-widget:hover {
+  border-color: var(--border-strong);
+}
+
+.sidebar-tip-card {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-tip-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--brand-gradient);
 }
 
 /* Modals */

@@ -32,8 +32,8 @@ export default function CircularProgress({
         <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={strokeColor} />
-              <stop offset="100%" stopColor="#6366f1" />
+              <stop offset="0%" stopColor={strokeColor} stopOpacity="1" />
+              <stop offset="100%" stopColor={strokeColor} stopOpacity="0.8" />
             </linearGradient>
           </defs>
           {/* Background circle track */}

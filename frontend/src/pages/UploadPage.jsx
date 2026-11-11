@@ -954,9 +954,9 @@ export default function UploadPage() {
             <div style={{ marginTop: '2.25rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <button
                 type="submit"
-                className="btn btn-primary btn-lg"
+                className="btn btn-accent btn-lg"
                 disabled={uploadStatus.isUploading || guestLimitReached}
-                style={{ minWidth: '220px' }}
+                style={{ minWidth: '220px', boxShadow: 'var(--shadow-md)' }}
               >
                 {guestLimitReached ? (
                   <>
