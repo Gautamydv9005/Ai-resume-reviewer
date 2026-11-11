@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import {
   UploadCloud,
   FileText,
@@ -28,7 +28,8 @@ const EXPERIENCE_LEVELS = [
 
 export default function UploadPage() {
   const navigate = useNavigate();
-  const { uploadAndAnalyze, uploadStatus, resetUploadState } = useResume();
+  const location = useLocation();
+  const { uploadAndAnalyze, uploadStatus, resetUploadState, pendingUploadFile, setPendingUploadFile } = useResume();
   const { addToast } = useToast();
   const { isGuest, guestSession, updateGuestSession } = useAuth();
 
@@ -136,6 +137,17 @@ export default function UploadPage() {
     });
   };
 
+  // Consume pre-selected file passed from Landing Page hero upload
+  useEffect(() => {
+    const fileFromNav = location.state?.preselectedFile;
+    if (fileFromNav) {
+      validateAndSetFile(fileFromNav);
+    } else if (pendingUploadFile) {
+      validateAndSetFile(pendingUploadFile);
+      setPendingUploadFile(null);
+    }
+  }, [pendingUploadFile, location.state]);
+
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -157,12 +169,17 @@ export default function UploadPage() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  // Pre-load sample file for quick demonstration (does NOT populate job fields)
+  // Pre-load sample file and default job description for instant demonstration
   const handleUseSampleResume = () => {
     const mockSampleFile = new File(['%PDF-1.4 Mock Senior Full Stack Engineer Resume'], 'Alex_Morgan_Senior_Engineer_2026.pdf', {
       type: 'application/pdf'
     });
     validateAndSetFile(mockSampleFile);
+    if (!jobTitle) setJobTitle('Senior Full Stack Engineer');
+    if (!company) setCompany('Stripe');
+    if (!experienceLevel) setExperienceLevel('Senior');
+    if (!jobText) setJobText('We are seeking an experienced Senior Full Stack Engineer to lead architecture, build scalable web services, and deliver modern features with React, Node.js, and TypeScript.');
+    if (skillTags.length === 0) setSkillTags(['React', 'Node.js', 'TypeScript', 'Docker', 'AWS']);
   };
 
   // Add skill tag

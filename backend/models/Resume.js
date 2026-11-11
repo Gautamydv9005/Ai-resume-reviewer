@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const ResumeSchema = new mongoose.Schema(
   {
     id: { type: String, required: true, unique: true },
-    userId: { type: String, default: 'usr_88291' },
+    userId: { type: String, default: null, index: true },
+    guestToken: { type: String, default: null, index: true },
     fileName: { type: String, required: true },
     fileSize: { type: String, default: '450 KB' },
     fileType: { type: String, default: 'application/pdf' },

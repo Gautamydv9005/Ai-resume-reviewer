@@ -211,9 +211,11 @@ export const uploadResume = async (req, res) => {
     const dateFormatted = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
     // Build resume entity
+    const currentUserId = req.user ? (req.user.id || req.user._id) : null;
     const resumeRecord = {
       id: newResumeId,
-      userId: req.user?.id || 'usr_88291',
+      userId: currentUserId,
+      guestToken: isGuest ? guestToken : null,
       fileName: originalName,
       fileSize: fileSizeFormatted,
       fileType: fileType,
@@ -297,7 +299,8 @@ export const uploadResume = async (req, res) => {
 export const getResumeHistory = async (req, res) => {
   try {
     if (req.user) {
-      const list = await dataStore.resumes.findAll();
+      const userId = req.user.id || req.user._id;
+      const list = await dataStore.resumes.findByUserId(userId);
       return res.json(list);
     }
 
@@ -328,6 +331,11 @@ export const getResume = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Resume not found' });
     }
 
+    // Authorization check: if authenticated and resume has owner, enforce match
+    if (req.user && resume.userId && resume.userId !== (req.user.id || req.user._id)) {
+      return res.status(403).json({ success: false, message: 'Not authorized to view this resume' });
+    }
+
     res.json(resume);
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to get resume details', error: err.message });
@@ -341,6 +349,15 @@ export const renameResume = async (req, res) => {
 
     if (!fileName) {
       return res.status(400).json({ success: false, message: 'fileName is required' });
+    }
+
+    const resume = await dataStore.resumes.findById(id);
+    if (!resume) {
+      return res.status(404).json({ success: false, message: 'Resume not found' });
+    }
+
+    if (req.user && resume.userId && resume.userId !== (req.user.id || req.user._id)) {
+      return res.status(403).json({ success: false, message: 'Not authorized to rename this resume' });
     }
 
     const updated = await dataStore.resumes.update(id, { fileName });
@@ -366,6 +383,25 @@ export const renameResume = async (req, res) => {
 export const deleteResume = async (req, res) => {
   try {
     const { id } = req.params;
+    const resume = await dataStore.resumes.findById(id);
+
+    if (!resume) {
+      return res.status(404).json({ success: false, message: 'Resume not found' });
+    }
+
+    if (req.user && resume.userId && resume.userId !== (req.user.id || req.user._id)) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this resume' });
+    }
+
+    // Delete physical file on disk if exists
+    if (resume.filePath && fs.existsSync(resume.filePath)) {
+      try {
+        await fs.promises.unlink(resume.filePath);
+      } catch (fileErr) {
+        console.warn(`[deleteResume] Notice: could not remove file ${resume.filePath}:`, fileErr.message);
+      }
+    }
+
     await dataStore.resumes.delete(id);
     res.json({ success: true, id });
   } catch (err) {

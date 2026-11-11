@@ -74,25 +74,12 @@ export function analyzeJobMatch(rawResumeText, jobData = null) {
     }
   }
 
-  // If few skills passed, provide common high-priority tech
-  if (matchingSkills.length === 0) {
-    matchingSkills.push(
-      { name: 'JavaScript / ES6+', level: 'Expert', relevance: 'Core Requirement' },
-      { name: 'React', level: 'Advanced', relevance: 'Core Requirement' },
-      { name: 'REST APIs', level: 'Advanced', relevance: 'Core Requirement' }
-    );
-  }
-
-  if (skillsToImprove.length === 0) {
-    skillsToImprove.push(
-      { name: 'Docker Containerization', priority: 'High', reason: 'Essential for containerized microservice deployments.' },
-      { name: 'AWS Cloud Services', priority: 'High', reason: 'Common prerequisite for scalable cloud production environments.' }
-    );
-  }
-
-  // Calculate score
-  const matchRatio = matchingSkills.length / Math.max(1, matchingSkills.length + skillsToImprove.length);
-  const jobMatchScore = Math.min(94, Math.max(68, Math.round(62 + matchRatio * 32)));
+  // Calculate score based on actual matching ratio
+  const totalEvaluatedSkills = matchingSkills.length + skillsToImprove.length;
+  const matchRatio = totalEvaluatedSkills > 0 ? (matchingSkills.length / totalEvaluatedSkills) : 0;
+  const jobMatchScore = totalEvaluatedSkills > 0
+    ? Math.min(95, Math.max(30, Math.round(35 + matchRatio * 60)))
+    : 50;
 
   // Role fit breakdown
   const roleFitBreakdown = [

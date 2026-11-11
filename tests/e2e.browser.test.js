@@ -30,7 +30,7 @@ test('End-to-End Browser Test Suite (Playwright with Native Chrome)', async (t) 
   const page = await context.newPage();
   const baseUrl = 'http://localhost:5173';
 
-  await t.test('1. Homepage Loading & SEO Metadata', async () => {
+  await t.test('1. Initial Landing Page & SEO Metadata', async () => {
     await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
 
     // Verify Title
@@ -41,7 +41,9 @@ test('End-to-End Browser Test Suite (Playwright with Native Chrome)', async (t) 
     const metaDesc = await page.getAttribute('meta[name="description"]', 'content');
     assert.ok(metaDesc && metaDesc.length > 20, 'Meta description should be present and meaningful');
 
-    // Verify H1
+    // Verify H1 (wait for lazy-loaded route chunk to mount)
+    const h1 = page.locator('h1').first();
+    await h1.waitFor({ state: 'visible', timeout: 10000 });
     const h1Count = await page.locator('h1').count();
     assert.ok(h1Count >= 1, 'Page should have at least one H1');
   });
@@ -83,6 +85,23 @@ test('End-to-End Browser Test Suite (Playwright with Native Chrome)', async (t) 
 
     // Verify metrics cards
     assert.ok(bodyText.includes('ATS') || bodyText.includes('Analyzed'), 'Dashboard should render metrics cards');
+  });
+
+  await t.test('3b. Landing Page Hero Upload & Drag-and-Drop Zone', async () => {
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    const h1 = page.locator('h1').first();
+    await h1.waitFor({ state: 'visible', timeout: 10000 });
+    const h1Text = await h1.innerText();
+    assert.ok(h1Text.includes('AI-Ready') && h1Text.includes('Job-Ready'), 'Hero headline should be visible');
+
+    // Verify Hero Upload Dropzone
+    const uploadBtn = page.locator('button:has-text("Upload File")').first();
+    await uploadBtn.waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await uploadBtn.isVisible(), 'Hero should contain "Upload File" button');
+
+    const heroText = await page.textContent('body');
+    assert.ok(heroText.includes('or drag to upload file'), 'Hero should contain "or drag to upload file"');
+    assert.ok(!heroText.includes('Explore Live Demo'), 'Explore Live Demo must be completely removed');
   });
 
   await t.test('4. Upload Page - Empty Input Validation Error State', async () => {

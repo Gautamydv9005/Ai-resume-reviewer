@@ -16,12 +16,7 @@ export const resumeService = {
       formData.append('jobDescription', JSON.stringify(jobDescription));
     }
 
-    // Progress simulation for interactive UX
-    const steps = [15, 38, 65, 88, 100];
-    for (const step of steps) {
-      onProgress(step);
-      await delay(250);
-    }
+    onProgress(35);
 
     // Try microservice if available
     const remoteResponse = await serviceRequest('resume', '/upload', {
@@ -29,6 +24,8 @@ export const resumeService = {
       body: formData,
       headers: {} // Let browser set multipart boundary
     });
+
+    onProgress(100);
 
     if (remoteResponse) {
       return remoteResponse;

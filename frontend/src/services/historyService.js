@@ -1,4 +1,4 @@
-import { serviceRequest, delay } from './apiClient';
+import { serviceRequest, delay, IS_MOCK_MODE } from './apiClient';
 import { initialResumeHistory } from '../mock/mockHistoryData';
 
 // Local in-memory state persistence for dynamic frontend demonstration
@@ -12,7 +12,11 @@ export const historyService = {
     const remoteResponse = await serviceRequest('resume', '/history');
     if (remoteResponse) return remoteResponse;
 
-    await delay(350);
+    if (!IS_MOCK_MODE) {
+      return [];
+    }
+
+    await delay(250);
     return [...historyCache];
   },
 

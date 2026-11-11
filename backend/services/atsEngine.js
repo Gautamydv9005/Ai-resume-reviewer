@@ -57,9 +57,12 @@ export function analyzeAtsCompliance(rawText, parsed, fileName = '') {
 
   for (const item of TECH_KEYWORDS_DICTIONARY) {
     const term = item.name.toLowerCase();
-    // Regex for whole word match
-    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
+    // Allow either the compound phrase or slash-separated subparts (e.g. HTML5 or CSS3, Agile or Scrum)
+    const subTerms = term.includes('/') ? term.split('/').map(t => t.trim()) : [term];
+    const regexPattern = subTerms
+      .map(t => `\\b${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
+      .join('|');
+    const regex = new RegExp(regexPattern, 'gi');
     const matches = (rawText || '').match(regex);
 
     if (matches && matches.length > 0) {

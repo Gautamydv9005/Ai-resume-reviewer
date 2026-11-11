@@ -1,4 +1,4 @@
-import { serviceRequest, delay } from './apiClient';
+import { serviceRequest, delay, IS_MOCK_MODE } from './apiClient';
 import { mockAnalysisResults } from '../mock/mockAnalysisData';
 
 export const analysisService = {
@@ -9,8 +9,11 @@ export const analysisService = {
     const remoteResponse = await serviceRequest('analysis', `/${resumeId}`);
     if (remoteResponse) return remoteResponse;
 
-    await delay(500);
-    // Return specific resume analysis or fallback to res_001
+    if (!IS_MOCK_MODE) {
+      return null;
+    }
+
+    await delay(300);
     return mockAnalysisResults[resumeId] || mockAnalysisResults.res_001;
   },
 
@@ -23,7 +26,11 @@ export const analysisService = {
     });
     if (remoteResponse) return remoteResponse;
 
-    await delay(800);
+    if (!IS_MOCK_MODE) {
+      throw new Error('Reanalysis failed: Unable to connect to analysis service.');
+    }
+
+    await delay(400);
     return mockAnalysisResults[resumeId] || mockAnalysisResults.res_001;
   }
 };

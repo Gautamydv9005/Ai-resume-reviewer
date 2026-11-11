@@ -2,7 +2,10 @@ import { dataStore } from '../utils/dataStore.js';
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.user?.id || 'usr_88291';
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
     const user = await dataStore.users.findById(userId);
 
     if (!user) {
@@ -19,7 +22,10 @@ export const getUserProfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.user?.id || 'usr_88291';
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
     const updates = req.body;
 
     delete updates.password; // Prevent accidental password overwriting via profile update

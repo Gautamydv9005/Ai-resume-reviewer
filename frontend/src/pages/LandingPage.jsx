@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Sparkles,
   ArrowRight,
@@ -13,11 +13,79 @@ import {
   Zap,
   Target,
   FileText,
-  Star
+  Star,
+  UploadCloud
 } from 'lucide-react';
 import CircularProgress from '../components/common/CircularProgress';
+import { useResume } from '../context/ResumeContext';
+import { useToast } from '../context/ToastContext';
 
 export default function LandingPage() {
+  const navigate = useNavigate();
+  const { setPendingUploadFile } = useResume();
+  const { addToast } = useToast();
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  const validateAndProceed = (selectedFile) => {
+    if (!selectedFile) return;
+
+    const validTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/msword'
+    ];
+    const isPdfOrDoc =
+      validTypes.includes(selectedFile.type) ||
+      selectedFile.name.endsWith('.pdf') ||
+      selectedFile.name.endsWith('.docx') ||
+      selectedFile.name.endsWith('.doc');
+
+    if (!isPdfOrDoc) {
+      addToast({
+        message: 'Unsupported format. Please upload a PDF or DOCX file.',
+        type: 'error'
+      });
+      return;
+    }
+
+    if (selectedFile.size > 10 * 1024 * 1024) {
+      addToast({
+        message: 'File size exceeds 10MB limit.',
+        type: 'error'
+      });
+      return;
+    }
+
+    setPendingUploadFile(selectedFile);
+    navigate('/upload', { state: { preselectedFile: selectedFile } });
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      validateAndProceed(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      validateAndProceed(e.target.files[0]);
+    }
+  };
+
   const features = [
     {
       icon: Cpu,
@@ -147,25 +215,114 @@ export default function LandingPage() {
             Upload your resume, get an AI-powered analysis, identify weaknesses, discover missing keywords, and improve your chances of passing ATS screening.
           </p>
 
-          {/* CTA Buttons */}
+          {/* Hero Upload & Drag-and-Drop Zone */}
           <div
+            className="animate-fade-in"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '1rem',
-              flexWrap: 'wrap',
-              marginBottom: '3.5rem'
+              maxWidth: '680px',
+              margin: '0 auto 3.5rem auto'
             }}
           >
-            <Link to="/upload" className="btn btn-primary btn-lg" style={{ minWidth: '200px' }}>
-              <Sparkles size={18} />
-              Review My Resume
-              <ArrowRight size={18} />
-            </Link>
-            <Link to="/analysis/res_001" className="btn btn-secondary btn-lg">
-              Explore Live Demo
-            </Link>
+            <div
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              style={{
+                border: `2px dashed ${dragActive ? 'var(--brand-primary)' : 'var(--border-strong)'}`,
+                background: dragActive ? 'rgba(99, 102, 241, 0.12)' : 'var(--bg-glass-card)',
+                backdropFilter: 'blur(16px)',
+                borderRadius: 'var(--radius-xl)',
+                padding: '2.25rem 2rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                transition: 'all var(--transition-normal)',
+                boxShadow: dragActive ? '0 0 35px rgba(99, 102, 241, 0.3)' : 'var(--shadow-md)',
+                position: 'relative'
+              }}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.docx,.doc"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+
+              <div
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: dragActive ? 'var(--brand-primary)' : 'rgba(99, 102, 241, 0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: dragActive ? '#ffffff' : 'var(--brand-primary)',
+                  margin: '0 auto 1.15rem auto',
+                  transition: 'all var(--transition-fast)'
+                }}
+              >
+                <UploadCloud size={28} />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.85rem',
+                  flexWrap: 'wrap',
+                  marginBottom: '0.75rem'
+                }}
+              >
+                <button
+                  type="button"
+                  className="btn btn-primary btn-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    fileInputRef.current?.click();
+                  }}
+                >
+                  <Sparkles size={18} />
+                  Upload File
+                </button>
+                <span style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  or drag to upload file
+                </span>
+              </div>
+
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem' }}>
+                Supports <strong style={{ color: 'var(--text-primary)' }}>PDF</strong> and{' '}
+                <strong style={{ color: 'var(--text-primary)' }}>DOCX</strong> (Max 10MB)
+              </p>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <Link
+                  to="/upload"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    color: 'var(--brand-primary)',
+                    fontWeight: 600,
+                    textDecoration: 'none'
+                  }}
+                >
+                  Review My Resume with target Job Description <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Hero Interactive Preview Card */}

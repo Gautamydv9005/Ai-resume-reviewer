@@ -239,33 +239,14 @@ export const login = async (req, res) => {
       });
     }
 
-    // Strictly validate password — bcrypt hash comparison with casing tolerance (e.g. Roshan123 vs roshan123)
+    // Strictly validate password via bcrypt
     let isMatch = false;
     if (user.password) {
       if (user.password.startsWith('$2a$') || user.password.startsWith('$2b$')) {
-        // 1. Exact match
         isMatch = await bcrypt.compare(password, user.password);
-
-        // 2. Trimmed match
-        if (!isMatch && password.trim() !== password) {
-          isMatch = await bcrypt.compare(password.trim(), user.password);
-        }
-
-        // 3. First letter auto-capitalization toggle (e.g., mobile keyboard capitalized 'Roshan123' when registered as 'roshan123')
-        if (!isMatch && password.length > 0) {
-          const toggledFirst = password.charAt(0) === password.charAt(0).toUpperCase()
-            ? password.charAt(0).toLowerCase() + password.slice(1)
-            : password.charAt(0).toUpperCase() + password.slice(1);
-          isMatch = await bcrypt.compare(toggledFirst, user.password);
-        }
-
-        // 4. Lowercase fallback
-        if (!isMatch) {
-          isMatch = await bcrypt.compare(password.toLowerCase(), user.password);
-        }
       } else {
         // Plain text (legacy seed data) — compare directly
-        isMatch = user.password === password || user.password.toLowerCase() === password.toLowerCase();
+        isMatch = user.password === password;
       }
     }
 

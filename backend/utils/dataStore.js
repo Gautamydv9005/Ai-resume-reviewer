@@ -181,11 +181,20 @@ export const dataStore = {
     async findAll() {
       if (isMongoActive()) {
         try {
-          const list = await Resume.find().sort({ createdAt: -1 });
-          if (list && list.length > 0) return list;
+          return await Resume.find().sort({ createdAt: -1 });
         } catch {}
       }
       return [...memResumes];
+    },
+
+    async findByUserId(userId) {
+      if (!userId) return [];
+      if (isMongoActive()) {
+        try {
+          return await Resume.find({ userId }).sort({ createdAt: -1 });
+        } catch {}
+      }
+      return memResumes.filter(r => r.userId === userId);
     },
 
     async findById(id) {
@@ -225,7 +234,12 @@ export const dataStore = {
     async delete(id) {
       if (isMongoActive()) {
         try {
-          await Resume.deleteOne({ id });
+          await Promise.all([
+            Resume.deleteOne({ id }),
+            Analysis.deleteMany({ resumeId: id }),
+            AtsReport.deleteMany({ resumeId: id }),
+            JobMatch.deleteMany({ resumeId: id })
+          ]);
         } catch {}
       }
       memResumes = memResumes.filter(r => r.id !== id);

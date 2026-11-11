@@ -13,6 +13,9 @@ import { jobMatchService } from '../services/jobMatchService';
 const ResumeContext = createContext(null);
 
 export function ResumeProvider({ children }) {
+  // Pending file uploaded from landing page
+  const [pendingUploadFile, setPendingUploadFile] = useState(null);
+
   // Currently inspected resume
   const [currentResumeId, setCurrentResumeId] = useState('res_001');
   const [resumeList, setResumeList] = useState(sampleResumes);
@@ -88,22 +91,19 @@ export function ResumeProvider({ children }) {
         }));
       });
 
-      // Step 2: AI & ATS Analysis simulation
+      // Step 2: AI & ATS Analysis completed by backend
       setUploadStatus(prev => ({
         ...prev,
-        progress: 75,
+        progress: 85,
         stage: 'Running ATS compatibility scan & keyword matching...'
       }));
-
-      await new Promise(r => setTimeout(r, 600));
 
       if (jobDescription && jobDescription.text) {
         setUploadStatus(prev => ({
           ...prev,
-          progress: 90,
+          progress: 95,
           stage: 'Evaluating semantic alignment with target Job Description...'
         }));
-        await new Promise(r => setTimeout(r, 500));
       }
 
       setUploadStatus({
@@ -205,6 +205,8 @@ export function ResumeProvider({ children }) {
         activeAts,
         activeJobMatch,
         uploadStatus,
+        pendingUploadFile,
+        setPendingUploadFile,
         selectResume,
         uploadAndAnalyze,
         renameHistoryItem,

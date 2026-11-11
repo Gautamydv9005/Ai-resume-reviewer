@@ -1,29 +1,36 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { useAuth } from './context/AuthContext';
 
-// Pages
-import LandingPage from './pages/LandingPage';
-import UploadPage from './pages/UploadPage';
-import DashboardPage from './pages/DashboardPage';
-import AnalysisDashboardPage from './pages/AnalysisDashboardPage';
-import AtsAnalysisPage from './pages/AtsAnalysisPage';
-import JobMatchPage from './pages/JobMatchPage';
-import AiFeedbackPage from './pages/AiFeedbackPage';
-import ImprovementSuggestionsPage from './pages/ImprovementSuggestionsPage';
-import ResumeHistoryPage from './pages/ResumeHistoryPage';
-import ResumeComparePage from './pages/ResumeComparePage';
-import ProfilePage from './pages/ProfilePage';
+// Route-level code splitting
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const UploadPage = lazy(() => import('./pages/UploadPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const AnalysisDashboardPage = lazy(() => import('./pages/AnalysisDashboardPage'));
+const AtsAnalysisPage = lazy(() => import('./pages/AtsAnalysisPage'));
+const JobMatchPage = lazy(() => import('./pages/JobMatchPage'));
+const AiFeedbackPage = lazy(() => import('./pages/AiFeedbackPage'));
+const ImprovementSuggestionsPage = lazy(() => import('./pages/ImprovementSuggestionsPage'));
+const ResumeHistoryPage = lazy(() => import('./pages/ResumeHistoryPage'));
+const ResumeComparePage = lazy(() => import('./pages/ResumeComparePage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 
 // Auth Pages
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
-import ResetPasswordPage from './pages/auth/ResetPasswordPage';
-import GoogleCallbackPage from './pages/auth/GoogleCallbackPage';
-import VerifyEmailPage from './pages/auth/VerifyEmailPage';
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'));
+const GoogleCallbackPage = lazy(() => import('./pages/auth/GoogleCallbackPage'));
+const VerifyEmailPage = lazy(() => import('./pages/auth/VerifyEmailPage'));
+
+function PageLoader() {
+  return (
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="spinner" style={{ width: '36px', height: '36px' }} />
+    </div>
+  );
+}
 
 // Route Guards
 // Allows registered users or guests with a valid guest review session
@@ -92,7 +99,8 @@ export default function App() {
       <Navbar />
 
       <main className="main-content">
-        <Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
           {/* Root: When a user visits the website, if unauthenticated and not guest, require signup/login first */}
           <Route
             path="/"
@@ -220,7 +228,8 @@ export default function App() {
           {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </main>
+      </Suspense>
+    </main>
 
       <Footer />
     </div>
