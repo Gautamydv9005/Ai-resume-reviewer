@@ -188,6 +188,64 @@
   border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
+/* ==========================================================================
+   Actionable AI Suggestion Callout Component
+   High contrast, crystal clear readability in both light and dark modes
+   ========================================================================== */
+.ai-suggestion-box {
+  margin-top: auto;
+  padding: 0.9rem 1.05rem;
+  border-radius: var(--radius-md);
+  background: var(--suggestion-card-bg);
+  border: 1px solid var(--suggestion-card-border);
+  border-left: 4px solid var(--suggestion-card-accent);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all var(--transition-fast);
+}
+
+.ai-suggestion-box:hover {
+  border-color: var(--suggestion-card-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.ai-suggestion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ai-suggestion-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--suggestion-card-icon-bg);
+  color: var(--suggestion-card-accent);
+  flex-shrink: 0;
+}
+
+.ai-suggestion-title {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--suggestion-card-title);
+}
+
+.ai-suggestion-text {
+  margin: 0;
+  font-size: 0.885rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--suggestion-card-text);
+  letter-spacing: -0.01em;
+}
+
 /* Keywords Chips */
 .chip {
   display: inline-flex;

@@ -66,11 +66,13 @@ export default function FeedbackCard({ item, type = 'strength' }) {
         <div
           style={{
             marginTop: 'auto',
-            fontSize: '0.8rem',
+            fontSize: '0.84rem',
             fontWeight: 600,
-            color: 'var(--brand-primary)',
-            background: 'var(--brand-primary-light)',
-            padding: '0.4rem 0.75rem',
+            color: 'var(--suggestion-card-title)',
+            background: 'var(--suggestion-card-bg)',
+            border: '1px solid var(--suggestion-card-border)',
+            borderLeft: '3px solid var(--suggestion-card-accent)',
+            padding: '0.45rem 0.75rem',
             borderRadius: 'var(--radius-sm)',
             alignSelf: 'flex-start'
           }}

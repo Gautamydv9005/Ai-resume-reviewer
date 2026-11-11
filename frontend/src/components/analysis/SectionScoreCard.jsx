@@ -55,27 +55,18 @@ export default function SectionScoreCard({ section }) {
 
       {/* Suggestion Callout */}
       {suggestion && (
-        <div
-          style={{
-            marginTop: 'auto',
-            padding: '0.75rem 1rem',
-            borderRadius: 'var(--radius-md)',
-            background: 'var(--brand-primary-light)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.5rem'
-          }}
-        >
-          <Sparkles size={16} color="var(--brand-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
-          <div>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', marginBottom: '2px' }}>
-              Actionable AI Suggestion
+        <div className="ai-suggestion-box">
+          <div className="ai-suggestion-header">
+            <div className="ai-suggestion-icon-badge">
+              <Sparkles size={13} strokeWidth={2.4} />
             </div>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-primary)', lineHeight: 1.45 }}>
-              {suggestion}
-            </p>
+            <span className="ai-suggestion-title">
+              Actionable AI Suggestion
+            </span>
           </div>
+          <p className="ai-suggestion-text">
+            {suggestion}
+          </p>
         </div>
       )}
     </div>

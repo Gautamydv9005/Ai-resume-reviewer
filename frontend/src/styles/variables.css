@@ -28,6 +28,14 @@
   --brand-gradient-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%);
   --brand-glow: 0 0 24px rgba(99, 102, 241, 0.35);
 
+  /* Suggestion & AI Callout Tokens (Dark Mode) */
+  --suggestion-card-bg: rgba(99, 102, 241, 0.1);
+  --suggestion-card-border: rgba(99, 102, 241, 0.28);
+  --suggestion-card-accent: #818cf8;
+  --suggestion-card-title: #c7d2fe;
+  --suggestion-card-icon-bg: rgba(99, 102, 241, 0.25);
+  --suggestion-card-text: #f8fafc;
+
   /* Status Colors */
   --success: #10b981;
   --success-light: rgba(16, 185, 129, 0.15);
@@ -97,4 +105,17 @@
   --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.09);
   --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
   --brand-glow: 0 0 24px rgba(99, 102, 241, 0.2);
+
+  /* Brand Accents for Light Mode - Higher contrast & WCAG AAA compliance */
+  --brand-primary: #4f46e5;
+  --brand-primary-hover: #4338ca;
+  --brand-primary-light: rgba(79, 70, 229, 0.09);
+
+  /* Suggestion & AI Callout Tokens (Light Mode - Crisp, High Contrast & High Legibility) */
+  --suggestion-card-bg: #eef2ff;
+  --suggestion-card-border: #c7d2fe;
+  --suggestion-card-accent: #4f46e5;
+  --suggestion-card-title: #312e81;
+  --suggestion-card-icon-bg: #e0e7ff;
+  --suggestion-card-text: #0f172a;
 }
