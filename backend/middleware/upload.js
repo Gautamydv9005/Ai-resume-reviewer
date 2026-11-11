@@ -44,3 +44,21 @@ export const upload = multer({
     fileSize: 10 * 1024 * 1024 // 10 MB
   }
 });
+
+/**
+ * Flexible middleware that accepts resume uploaded under either 'resume' or 'file' field name
+ */
+export const uploadResumeMiddleware = (req, res, next) => {
+  const handler = upload.fields([
+    { name: 'resume', maxCount: 1 },
+    { name: 'file', maxCount: 1 }
+  ]);
+
+  handler(req, res, (err) => {
+    if (err) return next(err);
+    if (!req.file && req.files) {
+      req.file = req.files['resume']?.[0] || req.files['file']?.[0] || null;
+    }
+    next();
+  });
+};

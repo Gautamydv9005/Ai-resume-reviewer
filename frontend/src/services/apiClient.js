@@ -118,19 +118,19 @@ export async function serviceRequest(serviceKey, endpoint, options = {}) {
   } catch (error) {
     clearTimeout(timeoutId);
 
-    // HTTP responses with status codes (400, 401, 403, 404, 429, 500)
+    // HTTP responses with status codes (400, 401, 403, 404, 413, 429, 500)
     if (error.status) {
       throw error;
     }
 
-    // AbortController timeout (often Render waking up from spin-down)
+    // AbortController timeout (actual request timeout, e.g. Render spin-down cold start)
     if (error.name === 'AbortError') {
       throw new Error(
-        `Request to ${serviceKey} service timed out. The backend server on Render may be waking up from sleep (cold start). Please wait about 30 seconds and try again.`
+        `Request to ${serviceKey} service timed out. The backend server on Render may be waking up from sleep (takes ~30-50s on free tier). Please retry shortly.`
       );
     }
 
-    // Network error / DNS / Failed to fetch
+    // Network error / DNS / Connection blocked
     const isNetworkError =
       error.name === 'TypeError' ||
       error.message?.toLowerCase().includes('failed to fetch') ||
@@ -138,14 +138,14 @@ export async function serviceRequest(serviceKey, endpoint, options = {}) {
       error.message?.toLowerCase().includes('load failed');
 
     if (isNetworkError) {
-      const helpfulMsg = `Cannot connect to backend service (${baseUrl}). The server on Render may be waking up from cold sleep. Please wait ~30 seconds and try again.`;
+      const helpfulMsg = `Unable to connect to backend server (${baseUrl}). Please check your internet connection or verify the backend service is active.`;
 
-      // Always throw on auth and mutations
-      if (serviceKey === 'auth' || (options.method && options.method !== 'GET')) {
+      // Always throw on mutations and auth
+      if (serviceKey === 'auth' || (options.method && options.method !== 'GET') || !IS_MOCK_MODE) {
         throw new Error(helpfulMsg);
       }
 
-      console.warn(`[API Connection Notice: ${serviceKey}] ${helpfulMsg} Falling back gracefully.`);
+      console.warn(`[API Connection Notice: ${serviceKey}] ${helpfulMsg} Falling back to mock data.`);
       return null;
     }
 
